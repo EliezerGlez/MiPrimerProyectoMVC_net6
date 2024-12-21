@@ -6,16 +6,16 @@ EXPOSE 80
 # Establecer la imagen para el build
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["MiPrimerProyectoMVC/MiPrimerProyectoMVC.csproj", "MiPrimerProyectoMVC/"]
-RUN dotnet restore "MiPrimerProyectoMVC/MiPrimerProyectoMVC.csproj"
+COPY ["MiPrimerProyectoMVC_net6/MiPrimerProyectoMVC_net6.csproj", "MiPrimerProyectoMVC_net6/"]
+RUN dotnet restore "MiPrimerProyectoMVC_net6/MiPrimerProyectoMVC_net6.csproj"
 COPY . .
-WORKDIR "/src/MiPrimerProyectoMVC"
-RUN dotnet build "MiPrimerProyectoMVC.csproj" -c Release -o /app/build
+WORKDIR "/src/MiPrimerProyectoMVC_net6"
+RUN dotnet build "MiPrimerProyectoMVC_net6.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MiPrimerProyectoMVC.csproj" -c Release -o /app/publish
+RUN dotnet publish "MiPrimerProyectoMVC_net6.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MiPrimerProyectoMVC.dll"]
+ENTRYPOINT ["dotnet", "MiPrimerProyectoMVC_net6.dll"]
