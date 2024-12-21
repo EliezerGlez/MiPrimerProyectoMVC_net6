@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MiPrimerProyectoMVC_net6.props" />
+</Project>
